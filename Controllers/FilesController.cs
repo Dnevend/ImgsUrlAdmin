@@ -81,9 +81,9 @@ namespace FilesUrl.Controllers
                     string fileExt = filename.Substring(filename.LastIndexOf('.'));
 
                     //类型限制
-                    string imgType = settingParams.Where(s => s.Param == "imgType").Select(s => s.Value).First();
+                    string imgType = settingParams.Where(s => s.Param == "imgType").Select(s => s.Value.ToUpper()).First();
                     string[] types = imgType.Split(',');
-                    if (!types.Contains(fileExt))
+                    if (!types.Contains(fileExt.ToUpper()))
                     {
                         return Ok(MessageModel<string>.Fail("不支持的文件类型！"));
                     }
