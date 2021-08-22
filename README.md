@@ -7,9 +7,13 @@
  Update-Database
 
 2021.08.22项目升级
+<br/>
 1.应用UnityContainer实现依赖注，未来新增实现都会使用依赖注入
+<br/>
 2.应用Redis缓存实现验证码缓存
+<br/>
 3.增加登录验证码环节，防止黑客暴力破解
+<br/>
 
 其他：由于前后端分离架构，前端无法建立在同一个Session，或由于跨域导致Set-Cookie无效，致使无法获取图片验证码的Token以至于影响验证码校验。
 最后采用Content-Disposition的方式来传递Token。另外要注意增加显示Desc的响应头，详细使用已在代码中进行注解。
