@@ -17,6 +17,7 @@ using FilesUrl.Models;
 using FilesUrl.Providers;
 using FilesUrl.Results;
 using System.Data.Entity;
+using FilesUrl.Services.IServices;
 
 namespace FilesUrl.Controllers
 {
@@ -29,8 +30,16 @@ namespace FilesUrl.Controllers
 
         private ApplicationDbContext DbContext;
 
+        private IRedisService redisService;
+
         public AccountController()
         {
+            DbContext = new ApplicationDbContext();
+        }
+
+        public AccountController(IRedisService redisService)
+        {
+            this.redisService = redisService;
             DbContext = new ApplicationDbContext();
         }
 

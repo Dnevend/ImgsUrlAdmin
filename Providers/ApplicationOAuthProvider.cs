@@ -11,11 +11,16 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using FilesUrl.Models;
 using FilesUrl.Common.Helper;
+using System.Web;
+using FilesUrl.Services.IServices;
+using Unity;
+using FilesUrl.Common.Redis;
 
 namespace FilesUrl.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
+
         private readonly string _publicClientId;
 
         public ApplicationOAuthProvider(string publicClientId)
@@ -30,6 +35,19 @@ namespace FilesUrl.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+
+
+            HttpRequest request = HttpContext.Current.Request;
+            //验证码校验
+            string inputRandomCode = request.Params.Get("verifyCode") ?? "";
+            string randomToken = request.Params.Get("codeToken") ?? "";
+            string randomCode = new RedisCacheManager().Get<String>(randomToken);
+            if (String.IsNullOrEmpty(randomCode) || String.IsNullOrEmpty(inputRandomCode) || !inputRandomCode.ToUpper().Equals(randomCode.ToUpper()))
+            {
+                context.SetError("invalid_grant", "验证码错误。");
+                return;
+            }
+
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
             ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
