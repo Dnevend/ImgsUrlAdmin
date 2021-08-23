@@ -1,5 +1,9 @@
 # ImgsUrlAdmin
  图床网站管理后台.Net WebAPI程序
+ <br/>
+项目演示地址:<a href="http://81.68.146.67:8008/" target="_blank">点击访问</a>
+<br/>
+前端仓库地址:<a href="https://github.com/Dnevend/ImgsUrlWeb" target="_blank">Github_ImgsUrlWeb</a>
 
  数据库可根据Models创建迁移生成
  Add-Migration "InitDB"
